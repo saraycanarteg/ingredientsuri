@@ -16,10 +16,7 @@ app.get('/', (req, res) => {
         version: '1.0.0',
         endpoints: {
             'GET /recipemanagement/ingredients': 'Get all ingredients',
-            'GET /recipemanagement/ingredients/category/:category': 'Filter by category',
-            'POST /recipemanagement/ingredient': 'Create new ingredient',
-            'PUT /recipemanagement/ingredient/:productId': 'Update ingredient',
-            'DELETE /recipemanagement/ingredient/:productId': 'Delete ingredient'
+            'POST /recipemanagement/ingredient': 'Create new ingredient'
         }
     });
 });
