@@ -11,19 +11,6 @@ router.get('/ingredients', async(req, res) => {
     }
 });
 
-router.get('/ingredients/category/:category', async (req, res) => { 
-    try {
-        const ingredients = await Ingredient.find({category: req.params.category}); 
-        if (ingredients.length === 0) {
-            res.status(404).json({message: 'No ingredients found in this category'});
-        } else {
-            res.json(ingredients);
-        }
-    } catch (err) {
-        res.status(500).json({message: err.message});
-    }  
-});
-
 router.post('/ingredient', async (req, res) => {
     const ingredientObject = new Ingredient({ 
         productId: req.body.productId,
@@ -45,42 +32,4 @@ router.post('/ingredient', async (req, res) => {
         res.status(400).json({message: err.message});
     }
 });
-
-router.put('/ingredient/:productId', async (req, res) => {
-    try {
-        const ingredientObject = await Ingredient.findOne({productId: req.params.productId}); 
-        if (ingredientObject == null) {
-            return res.status(404).json({message: 'Ingredient not found'});
-        }
-
-        if (req.body.name != null) ingredientObject.name = req.body.name;
-        if (req.body.category != null) ingredientObject.category = req.body.category;
-        if (req.body.product != null) ingredientObject.product = req.body.product;
-        if (req.body.brand != null) ingredientObject.brand = req.body.brand;
-        if (req.body.size != null) ingredientObject.size = req.body.size;
-        if (req.body.sizeUnit != null) ingredientObject.sizeUnit = req.body.sizeUnit;
-        if (req.body.price != null) ingredientObject.price = req.body.price;
-        if (req.body.availableUnits != null) ingredientObject.availableUnits = req.body.availableUnits;
-        if (req.body.supplier != null) ingredientObject.supplier = req.body.supplier; 
-        
-        const updatedIngredient = await ingredientObject.save();
-        res.json(updatedIngredient);
-    } catch (err) {
-        res.status(400).json({message: err.message});
-    }
-});
-
-router.delete('/ingredient/:productId', async (req, res) => {
-    try {
-        const ingredientObject = await Ingredient.findOne({productId: req.params.productId}); // ✅ Usa Ingredient
-        if (ingredientObject == null) {
-            return res.status(404).json({message: 'Ingredient not found'});
-        }
-        await Ingredient.deleteOne({productId: req.params.productId}); // ✅ Usa Ingredient
-        res.json({message: 'Ingredient deleted successfully'});
-    } catch (err) {
-        res.status(500).json({message: err.message});
-    }
-});
-
 module.exports = router;
